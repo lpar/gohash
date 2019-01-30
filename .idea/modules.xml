@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hash.iml" filepath="$PROJECT_DIR$/.idea/hash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/gohash.iml" filepath="$PROJECT_DIR$/.idea/gohash.iml" />
     </modules>
   </component>
 </project>

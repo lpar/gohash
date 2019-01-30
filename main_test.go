@@ -2,14 +2,15 @@ package main
 
 import (
 	"crypto/sha256"
+	"os"
 	"testing"
 )
 
 func TestLineParse(t *testing.T){
 	testcases := []struct {
-		in string
-		out_hash string
-		out_file string
+		in      string
+		outHash string
+		outFile string
 	}{
 		{"486f25a109aae34cee78de7647047a289ea6a7c18d4f381bd20fbc9feb26da3c  with a  double     space.  ", "486f25a109aae34cee78de7647047a289ea6a7c18d4f381bd20fbc9feb26da3c", "with a  double     space.  "},
 		{"498cf6bafdd6ced537e0433f28c06a78504c74f684148acfb51b5a04156c9e4f  trailing spaces  ", "498cf6bafdd6ced537e0433f28c06a78504c74f684148acfb51b5a04156c9e4f", "trailing spaces  "},
@@ -17,15 +18,15 @@ func TestLineParse(t *testing.T){
 		{"da8748d73e686de80325716885dc4c924fb34746fdd253f677009ebdeefcca01   with spaces.jpg", "da8748d73e686de80325716885dc4c924fb34746fdd253f677009ebdeefcca01", " with spaces.jpg"},
 	}
 	for _, tc := range testcases {
-		hashhex, fname, err := parseline(tc.in)
+		hashhex, fname, err := parseLine(tc.in)
 		if err != nil {
 			t.Error(err)
 		}
-		if tc.out_file != fname {
-			t.Errorf("hash file parse failed, expected filename '%s' got '%s'", tc.out_file, fname)
+		if tc.outFile != fname {
+			t.Errorf("hash file parse failed, expected filename '%s' got '%s'", tc.outFile, fname)
 		}
-		if tc.out_hash != hashhex {
-			t.Errorf("hash file parse failed, expected hash '%s' got '%s'", tc.out_hash, hashhex)
+		if tc.outHash != hashhex {
+			t.Errorf("hash file parse failed, expected hash '%s' got '%s'", tc.outHash, hashhex)
 		}
 	}
 }
@@ -34,8 +35,8 @@ const testFile ="testdata/testdata.dat"
 
 func TestFileHash(t *testing.T) {
 	testcases := []struct {
-		algo string
-		out_hash string
+		algo    string
+		outHash string
 	}{
 		{	"md5", "7b4db0bf2a2c1d2e24f7784601f65499"},
 		{	"sha1", "b4fab5688a47de865b31b0de4a2c8b8c05d81279"},
@@ -51,12 +52,12 @@ func TestFileHash(t *testing.T) {
 		if hasher == nil {
 			t.Errorf("couldn't get a hasher for %s", tc.algo)
 		} else {
-			hexhash,err := hashfile(hasher, testFile)
+			hexhash,err := hashFile(hasher, testFile)
 			if err != nil {
 				t.Errorf("error %s hashing %s: %v", tc.algo, testFile, err)
 			}
-			if hexhash != tc.out_hash {
-				t.Errorf("wrong %s hash: expected %s got %s", tc.algo, tc.out_hash, hexhash)
+			if hexhash != tc.outHash {
+				t.Errorf("wrong %s hash: expected %s got %s", tc.algo, tc.outHash, hexhash)
 			}
 		}
 	}
@@ -65,7 +66,13 @@ func TestFileHash(t *testing.T) {
 const checksumFile = "testdata/checksums.sha256"
 
 func TestCheckFromFile(t *testing.T) {
-	fails, err := checkhashes(sha256.New(), checksumFile)
+	// Suppress stdout for the duration of this test
+	stdout := os.Stdout
+	defer func () {
+		os.Stdout = stdout
+	}()
+	os.Stdout,_ = os.Open(os.DevNull)
+	fails, err := checkHashes(sha256.New(), checksumFile)
 	if err != nil {
 		t.Errorf("error checking checksums in %s: %v", checksumFile, err)
 	}
@@ -77,7 +84,13 @@ func TestCheckFromFile(t *testing.T) {
 const badFile = "testdata/checksums.bad.sha256"
 
 func TestFailFromFile(t *testing.T) {
-	fails, err := checkhashes(sha256.New(), badFile)
+	// Suppress stdout for the duration of this test
+	stdout := os.Stdout
+	defer func () {
+		os.Stdout = stdout
+	}()
+	os.Stdout,_ = os.Open(os.DevNull)
+	fails, err := checkHashes(sha256.New(), badFile)
 	if err != nil {
 		t.Errorf("error checking checksums in %s: %v", badFile, err)
 	}

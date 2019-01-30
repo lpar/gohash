@@ -1,5 +1,5 @@
 
-# hash
+# gohash
 
 A command line checksum generator and checker written in Go.
 

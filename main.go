@@ -26,7 +26,7 @@ func usage() {
 	os.Exit(2)
 }
 
-func parseline(line string) (string, string, error) {
+func parseLine(line string) (string, string, error) {
 	fs := strings.Index(line, "  ")
 	if fs < 0 {
 		return "","", errors.New("bad input line")
@@ -34,104 +34,105 @@ func parseline(line string) (string, string, error) {
 	return line[:fs], line[fs+2:], nil
 }
 
-func hashfile(hasher hash.Hash, filepath string) (string, error) {
-	hashhex := ""
-	file, err := os.Open(filepath)
+func hashFile(hasher hash.Hash, filepath string) (string, error) {
+	hashHex := ""
+	inFile, err := os.Open(filepath)
 	if err != nil {
-		return hashhex, fmt.Errorf("can't hash %s: %v", filepath, err)
+		return hashHex, fmt.Errorf("can't hash %s: %v", filepath, err)
 	}
-	var ret error = nil
+	var ret error
 	defer func () {
-		err = file.Close()
+		err = inFile.Close()
 		if err != nil {
 			ret = fmt.Errorf("error closing %s: %v", filepath, err)
 		}
 	}()
 	hasher.Reset()
-	_, err = io.Copy(hasher, file)
+	_, err = io.Copy(hasher, inFile)
 	if err != nil {
-		return hashhex, fmt.Errorf("can't hash %s: %v", filepath, err)
+		return hashHex, fmt.Errorf("can't hash %s: %v", filepath, err)
 	}
 	sum := hasher.Sum(nil)
-	hashhex = fmt.Sprintf("%x", sum)
-	return hashhex, ret
+	hashHex = fmt.Sprintf("%x", sum)
+	return hashHex, ret
 }
 
-func makeallhashes(hasher hash.Hash, filelist []string) int {
-	failcount := 0
-	for _, file := range filelist {
-		hexhash, err := hashfile(hasher, file)
+func makeAllHashes(hasher hash.Hash, fileList []string) int {
+	failCount := 0
+	for _, file := range fileList {
+		hexHash, err := hashFile(hasher, file)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
-			failcount++
+			failCount++
 		} else {
-			fmt.Printf("%s  %s\n", hexhash, file)
+			fmt.Printf("%s  %s\n", hexHash, file)
 		}
 	}
-	return failcount
+	return failCount
 }
 
-func checkallhashes(hasher hash.Hash, filelist []string) int {
-	failcount := 0
-	for _, file := range filelist {
-		failures, err := checkhashes(hasher, file)
+func checkAllHashes(hasher hash.Hash, fileList []string) int {
+	failCount := 0
+	for _, file := range fileList {
+		failures, err := checkHashes(hasher, file)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
-		failcount += failures
+		failCount += failures
 	}
-	if failcount != 0 {
+	if failCount != 0 {
 		s := ""
-		if failcount > 1 {
+		if failCount > 1 {
 			s = "s"
 		}
-	  fmt.Fprintf(os.Stderr, "WARNING: %d computer checksum%s did NOT match", failcount, s)
+	  fmt.Fprintf(os.Stderr, "WARNING: %d computer checksum%s did NOT match", failCount, s)
 	}
-	return failcount
+	return failCount
 }
 
-func checkhashes(hasher hash.Hash, filename string) (int, error) {
-	failcount := 0
-	file, err := os.Open(filename)
+func checkHashes(hasher hash.Hash, filename string) (int, error) {
+	failCount := 0
+	inFile, err := os.Open(filename)
 	if err != nil {
-		failcount++
-		return failcount, fmt.Errorf("can't check %s: %v", filename, err)
+		failCount++
+		return failCount, fmt.Errorf("can't check %s: %v", filename, err)
 	}
-	var ret error = nil
+	var ret error
 	defer func () {
-		err = file.Close()
+		err = inFile.Close()
 		if err != nil {
 			ret = fmt.Errorf("error closing %s: %v", filename, err)
 		}
 	}()
 	line := 0
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(inFile)
 	for scanner.Scan() {
 		line++
-		expectedhash, filetohash, err := parseline(scanner.Text())
+		expectedHash, fileToHash, err := parseLine(scanner.Text())
 		if err != nil {
-			failcount++
-			return failcount, fmt.Errorf("bad input line %d of %s", line, filename)
+			failCount++
+			return failCount, fmt.Errorf("bad input line %d of %s", line, filename)
 		}
-		filehash, err := hashfile(hasher, filetohash)
+		fileHash, err := hashFile(hasher, fileToHash)
 		if err != nil {
-			failcount++
-			return failcount, fmt.Errorf("can't check line %d of %s: %v", line, filename, err)
+			failCount++
+			return failCount, fmt.Errorf("can't check line %d of %s: %v", line, filename, err)
 		}
-		if filehash == expectedhash {
-			fmt.Printf("%s: OK\n", filetohash)
+		if fileHash == expectedHash {
+			fmt.Printf("%s: OK\n", fileToHash)
 		} else {
-			fmt.Printf("%s: FAILED\n", filetohash)
-			failcount++
+			fmt.Printf("%s: FAILED\n", fileToHash)
+			failCount++
 		}
 	}
-	return failcount, ret
+	return failCount, ret
 }
 
+// NewHasher returns a hash.Hash object for the algorithm specified by the string argument.
 func NewHasher(algo string) hash.Hash {
 	switch algo {
 	case "md5":
-	return md5.New()
+		return md5.New()
 	case "sha1":
 		return sha1.New()
 	case "sha224":
@@ -169,14 +170,14 @@ func main () {
 		os.Exit(1)
 	}
 
-	failcount := 0
+	failCount := 0
 	if *chk {
-		failcount = checkallhashes(hasher, args)
+		failCount = checkAllHashes(hasher, args)
 	} else {
-		failcount = makeallhashes(hasher, args)
+		failCount = makeAllHashes(hasher, args)
 	}
 
-	if failcount != 0 {
+	if failCount != 0 {
 		os.Exit(4)
 	}
 
