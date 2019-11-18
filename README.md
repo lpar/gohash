@@ -5,7 +5,9 @@ A command line checksum generator and checker written in Go.
 
 ## Description
 
-This is a simple command line checksum program. It supports the following algorithms:
+This is a simple command line checksum program. It will hash the files or directories given as arguments, including recursively descending any directories so you don't need to use `find`.
+
+It supports the following algorithms:
 
  * crc32 (IEEE CRC-32)
  * md5 (RFC 1321)

@@ -13,6 +13,7 @@ import (
 	"hash/crc32"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -59,14 +60,40 @@ func hashFile(hasher hash.Hash, filepath string) (string, error) {
 
 func makeAllHashes(hasher hash.Hash, fileList []string) int {
 	failCount := 0
-	for _, file := range fileList {
-		hexHash, err := hashFile(hasher, file)
+	hashFunc := func (filename string) {
+		hexHash, err := hashFile(hasher, filename)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			failCount++
 		} else {
-			fmt.Printf("%s  %s\n", hexHash, file)
+			fmt.Printf("%s  %s\n", hexHash, filename)
 		}
+	}
+	for _, file := range fileList {
+		info, err := os.Stat(file)
+		if err != nil {
+			failCount++
+			continue
+		}
+		if info.IsDir() {
+			err := filepath.Walk(file, func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					fmt.Fprintln(os.Stderr, err)
+					failCount++
+					return nil
+				}
+				if !info.IsDir() {
+					hashFunc(path)
+				}
+				return nil
+			})
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				failCount++
+			}
+		continue
+		}
+		hashFunc(file)
 	}
 	return failCount
 }
