@@ -5,6 +5,7 @@
 *.so
 *.dylib
 gohash
+dist
 
 # Test binary, build with `go test -c`
 *.test
