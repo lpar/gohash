@@ -52,7 +52,7 @@ func TestFileHash(t *testing.T) {
 		if hasher == nil {
 			t.Errorf("couldn't get a hasher for %s", tc.algo)
 		} else {
-			hexhash,err := hashFile(hasher, testFile)
+			hexhash,err := HashFile(hasher, testFile)
 			if err != nil {
 				t.Errorf("error %s hashing %s: %v", tc.algo, testFile, err)
 			}
@@ -72,7 +72,7 @@ func TestCheckFromFile(t *testing.T) {
 		os.Stdout = stdout
 	}()
 	os.Stdout,_ = os.Open(os.DevNull)
-	fails, err := checkHashes(sha256.New(), checksumFile)
+	fails, err := CheckHashes(sha256.New(), checksumFile)
 	if err != nil {
 		t.Errorf("error checking checksums in %s: %v", checksumFile, err)
 	}
@@ -90,7 +90,7 @@ func TestFailFromFile(t *testing.T) {
 		os.Stdout = stdout
 	}()
 	os.Stdout,_ = os.Open(os.DevNull)
-	fails, err := checkHashes(sha256.New(), badFile)
+	fails, err := CheckHashes(sha256.New(), badFile)
 	if err != nil {
 		t.Errorf("error checking checksums in %s: %v", badFile, err)
 	}
@@ -99,3 +99,17 @@ func TestFailFromFile(t *testing.T) {
 	}
 }
 
+func ExampleMakeAllHashes() {
+	MakeAllHashes(NewHasher("sha256"), []string{"testdata/multi"})
+	// Output:
+  // 2776461b5b9fc6baaae69f2e6367afeb2449c383a55de5ea5b936d6ecb9bbf84  testdata/multi/one.dat
+	// 383f36c987fcadd6c033b0645a874db256755fd66fff9c486637123debdff6da  testdata/multi/subdir/zz.dat
+	// 917ce65312b9ad00aaa4dce4fe4af5582ce1398fdefd33e787ad5db6dadd1844  testdata/multi/zz.dat
+}
+
+func TestCheckAllHashes(t *testing.T) {
+	fails := CheckAllHashes(NewHasher("sha256"), []string{"testdata/multi.sha256"})
+	if fails != 0 {
+		t.Errorf("got %d failures expected 0", fails)
+	}
+}

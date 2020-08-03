@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="03a41f10-df5f-47fc-acca-33f9ad71dc5e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/testdata/multi.sha256" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/multi/one.dat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/multi/subdir/zz.dat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/multi/zz.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.goreleaser.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.goreleaser.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/main_test.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="/usr/local/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="ProjectId" id="1fbl5uO3WYHcTIGB2nbX4XKSL61" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RunManager" selected="Go Test.TestHashMultiple in github.com/lpar/gohash">
+    <configuration name="ExampleHashMultiple in github.com/lpar/gohash" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="gohash" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lpar/gohash" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^ExampleHashMultiple$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHashMultiple in github.com/lpar/gohash" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="gohash" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lpar/gohash" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^TestHashMultiple$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestHashMultiple in github.com/lpar/gohash" />
+        <item itemvalue="Go Test.ExampleHashMultiple in github.com/lpar/gohash" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="03a41f10-df5f-47fc-acca-33f9ad71dc5e" name="Default Changelist" comment="" />
+      <created>1596494492727</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596494492727</updated>
+      <workItem from="1596494493763" duration="1182000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="432" y="346" key="#GOROOT" timestamp="1596494507841">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state x="432" y="346" key="#GOROOT/0.23.1280.777@0.23.1280.777" timestamp="1596494507841" />
+    <state x="339" y="218" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596495133840">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state x="339" y="218" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1280.777@0.23.1280.777" timestamp="1596495133840" />
+    <state x="378" y="271" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1596495448191">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state x="378" y="271" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.1280.777@0.23.1280.777" timestamp="1596495448191" />
+    <state width="1218" height="195" key="GridCell.Tab.0.bottom" timestamp="1596495448246">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state width="1218" height="195" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1596495448246" />
+    <state width="1218" height="195" key="GridCell.Tab.0.center" timestamp="1596495448241">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state width="1218" height="195" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1596495448241" />
+    <state width="1218" height="195" key="GridCell.Tab.0.left" timestamp="1596495448240">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state width="1218" height="195" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1596495448240" />
+    <state width="1218" height="195" key="GridCell.Tab.0.right" timestamp="1596495448241">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state width="1218" height="195" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1596495448241" />
+  </component>
+</project>

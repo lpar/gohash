@@ -35,7 +35,7 @@ func parseLine(line string) (string, string, error) {
 	return line[:fs], line[fs+2:], nil
 }
 
-func hashFile(hasher hash.Hash, filepath string) (string, error) {
+func HashFile(hasher hash.Hash, filepath string) (string, error) {
 	hashHex := ""
 	inFile, err := os.Open(filepath)
 	if err != nil {
@@ -58,10 +58,10 @@ func hashFile(hasher hash.Hash, filepath string) (string, error) {
 	return hashHex, ret
 }
 
-func makeAllHashes(hasher hash.Hash, fileList []string) int {
+func MakeAllHashes(hasher hash.Hash, fileList []string) int {
 	failCount := 0
 	hashFunc := func (filename string) {
-		hexHash, err := hashFile(hasher, filename)
+		hexHash, err := HashFile(hasher, filename)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			failCount++
@@ -76,7 +76,7 @@ func makeAllHashes(hasher hash.Hash, fileList []string) int {
 			continue
 		}
 		if info.IsDir() {
-			err := filepath.Walk(file, func(path string, info os.FileInfo, err error) error {
+			err = filepath.Walk(file, func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					fmt.Fprintln(os.Stderr, err)
 					failCount++
@@ -98,10 +98,10 @@ func makeAllHashes(hasher hash.Hash, fileList []string) int {
 	return failCount
 }
 
-func checkAllHashes(hasher hash.Hash, fileList []string) int {
+func CheckAllHashes(hasher hash.Hash, fileList []string) int {
 	failCount := 0
 	for _, file := range fileList {
-		failures, err := checkHashes(hasher, file)
+		failures, err := CheckHashes(hasher, file)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
@@ -117,7 +117,7 @@ func checkAllHashes(hasher hash.Hash, fileList []string) int {
 	return failCount
 }
 
-func checkHashes(hasher hash.Hash, filename string) (int, error) {
+func CheckHashes(hasher hash.Hash, filename string) (int, error) {
 	failCount := 0
 	inFile, err := os.Open(filename)
 	if err != nil {
@@ -140,7 +140,7 @@ func checkHashes(hasher hash.Hash, filename string) (int, error) {
 			failCount++
 			return failCount, fmt.Errorf("bad input line %d of %s", line, filename)
 		}
-		fileHash, err := hashFile(hasher, fileToHash)
+		fileHash, err := HashFile(hasher, fileToHash)
 		if err != nil {
 			failCount++
 			return failCount, fmt.Errorf("can't check line %d of %s: %v", line, filename, err)
@@ -199,9 +199,9 @@ func main () {
 
 	failCount := 0
 	if *chk {
-		failCount = checkAllHashes(hasher, args)
+		failCount = CheckAllHashes(hasher, args)
 	} else {
-		failCount = makeAllHashes(hasher, args)
+		failCount = MakeAllHashes(hasher, args)
 	}
 
 	if failCount != 0 {
